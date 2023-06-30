@@ -15,9 +15,9 @@
     fd
     ripgrep
     watchexec
-    gradle
     kubectl
     minikube
+    gradle
     # pkgs.hello
     (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" ]; })
 
@@ -77,6 +77,18 @@
         gst = "git status";
         hss = "home-manager switch && source ~/.zshrc";
       };
+      initExtra = ''
+      	#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+	export SDKMAN_DIR="$HOME/.sdkman"
+	[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+	export PUB_HOSTED_URL=https://pub.flutter-io.cn
+	export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
+	# The next line updates PATH for the Google Cloud SDK.
+	if [ -f '/home/sakura/.local/google-cloud-sdk/path.zsh.inc' ]; then . '/home/sakura/.local/google-cloud-sdk/path.zsh.inc'; fi
+	# The next line enables shell command completion for gcloud.
+	if [ -f '/home/sakura/.local/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/sakura/.local/google-cloud-sdk/completion.zsh.inc'; fi
+	export PATH=$PATH:$HOME/.local/istio-1.18.0/bin
+      '';
       plugins = [
         {
           name = "powerlevel10k-config";
