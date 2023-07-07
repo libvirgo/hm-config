@@ -3,7 +3,7 @@
 {
   home.username = "sakura";
   home.homeDirectory = "/home/sakura";
-  home.stateVersion = "22.11"; # Please read the comment before changing.
+  home.stateVersion = "23.05"; # Please read the comment before changing.
   nixpkgs.config.allowUnfree = true;
   targets.genericLinux.enable = true;
   fonts.fontconfig.enable = true;
@@ -18,9 +18,9 @@
     kubectl
     minikube
     gradle
+    tmux
     # pkgs.hello
     (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" ]; })
-
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
@@ -67,7 +67,10 @@
     zsh = {
       enable = true;
       enableAutosuggestions = true;
-      enableSyntaxHighlighting = true;
+      #enableSyntaxHighlighting = true;
+      syntaxHighlighting = {
+      	enable = true;
+      };
       defaultKeymap = "emacs";
       shellAliases = {
         cat = "bat -p";
@@ -87,7 +90,8 @@
 	if [ -f '/home/sakura/.local/google-cloud-sdk/path.zsh.inc' ]; then . '/home/sakura/.local/google-cloud-sdk/path.zsh.inc'; fi
 	# The next line enables shell command completion for gcloud.
 	if [ -f '/home/sakura/.local/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/sakura/.local/google-cloud-sdk/completion.zsh.inc'; fi
-	export PATH=$PATH:$HOME/.local/istio-1.18.0/bin
+	export PATH="/home/sakura/.local/share/fnm:$PATH"
+  	eval "`fnm env`"
       '';
       plugins = [
         {
