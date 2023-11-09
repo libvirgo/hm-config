@@ -16,9 +16,9 @@
     ripgrep
     watchexec
     kubectl
-    minikube
     gradle
     tmux
+    zig
     # pkgs.hello
     (nerdfonts.override { fonts = [ "JetBrainsMono" "Iosevka" ]; })
     # (pkgs.writeShellScriptBin "my-hello" ''
@@ -79,19 +79,29 @@
         glog = "git log --oneline --decorate --graph";
         gst = "git status";
         hss = "home-manager switch && source ~/.zshrc";
+	kc = "kubectl";
       };
       initExtra = ''
+      	export PATH=$HOME/.local/bin:$PATH
       	#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 	export SDKMAN_DIR="$HOME/.sdkman"
 	[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 	export PUB_HOSTED_URL=https://pub.flutter-io.cn
 	export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
-	# The next line updates PATH for the Google Cloud SDK.
-	if [ -f '/home/sakura/.local/google-cloud-sdk/path.zsh.inc' ]; then . '/home/sakura/.local/google-cloud-sdk/path.zsh.inc'; fi
-	# The next line enables shell command completion for gcloud.
-	if [ -f '/home/sakura/.local/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/sakura/.local/google-cloud-sdk/completion.zsh.inc'; fi
-	export PATH="/home/sakura/.local/share/fnm:$PATH"
+	export PATH="$HOME/.local/share/fnm:$PATH"
+	export PATH="$HOME/.local/app/istio/bin:$PATH"
+	export PATH="$HOME/.local/app/google-cloud-sdk/bin:$PATH"
+	export GRAALVM_HOME=$HOME/.sdkman/candidates/java/17.0.7-graal
   	eval "`fnm env`"
+	source "$HOME/.cargo/env"
+	source <(ng completion script)
+	# The next line updates PATH for the Google Cloud SDK.
+	if [ -f '/home/sakura/.local/app/google-cloud-sdk/path.zsh.inc' ]; then . '/home/sakura/.local/app/google-cloud-sdk/path.zsh.inc'; fi
+	# The next line enables shell command completion for gcloud.
+	if [ -f '/home/sakura/.local/app/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/sakura/.local/app/google-cloud-sdk/completion.zsh.inc'; fi
+	if [ -f '/home/sakura/.dotnet/dotnet' ]; then export PATH="$HOME/.dotnet:$PATH" export DOTNET_ROOT=$HOME/.dotnet; fi
+	if [ -f '/home/sakura/.local/app/dotnet/_dotnet' ]; then . '/home/sakura/.local/app/dotnet/_dotnet'; fi
+	if [ -f '/home/sakura/sdk/go1.21.0/bin/go' ]; then export PATH=$HOME/sdk/go1.21.0/bin:$PATH; fi
       '';
       plugins = [
         {
